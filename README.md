@@ -1,81 +1,26 @@
-# Flask Training Project
+Branch: basic-routing
 
-Welcome to the Flask Training Project! This repository contains a step-by-step learning path for building a Flask application using various concepts and features. Each branch in the repository corresponds to a specific topic and includes relevant code and instructions.
+Summary: This branch introduces the basic concepts of routing in Flask. Routing is the mechanism by which Flask maps URL endpoints to Python functions. Each route corresponds to a specific function that is called whenever the URL is accessed.
 
-## Table of Contents
+Key Concepts:
 
-- [Getting Started](#getting-started)
-- [Branch Overview](#branch-overview)
-- [Environment Setup](#environment-setup)
-- [Exploring the Branches](#exploring-the-branches)
-  - [Basic Routing](#basic-routing)
-  - [Templates](#templates)
-  - [Forms](#forms)
-  - [SQLAlchemy & Database](#sqlalchemy--database)
-  - [Authentication](#authentication)
-  - [Advanced Features](#advanced-features)
-  - [Testing](#testing)
-  - [Deployment](#deployment)
-- [Contributing](#contributing)
+    Defining routes using the @app.route decorator.
+    Creating multiple routes with different URLs.
+    Handling different HTTP methods (GET, POST).
 
-## Getting Started
+Example Code:
 
-To get started with this project, ensure you have the following installed on your machine:
+from flask import Flask
 
-- Python 3.x
-- pip (Python package installer)
-- Git
-- A text editor or IDE (such as Visual Studio Code)
+app = Flask(__name__)
 
-## Branch Overview
+@app.route('/')
+def home():
+    return "Hello, Flask!"
 
-Each branch in this repository represents a different stage or concept of the project. Here is a quick overview:
+@app.route('/about')
+def about():
+    return "This is the about page."
 
-- `main` - Initial project setup with a basic Flask app structure.
-- `basic-routing` - Basic routing in Flask.
-- `templates` - Introduction to templates and template inheritance.
-- `forms` - Handling forms and requests.
-- `sqlalchemy` - Database handling with SQLAlchemy.
-- `authentication` - User authentication using Flask extensions.
-- `advanced-features` - Adding advanced features (e.g., file uploads).
-- `testing` - Setting up and writing tests for the Flask application.
-- `deployment` - Preparing the application for deployment.
-
-## Environment Setup
-
-To set up the environment for this project, follow these steps:
-
-1. **Clone the repository:**
-
-    ```sh
-    git clone https://github.com/yourusername/FlaskTrainingProject.git
-    cd FlaskTrainingProject
-    ```
-
-2. **Create and activate a virtual environment:**
-
-    ```sh
-    python3 -m venv env
-    source env/bin/activate  # On Windows use `env\Scripts\activate`
-    ```
-
-3. **Install dependencies:**
-
-    ```sh
-    pip install -r requirements.txt
-    ```
-
-4. **Run the development server:**
-
-    ```sh
-    python app.py
-    ```
-
-## Exploring the Branches
-
-### Basic Routing
-
-In this branch, you will learn about basic routing in Flask. Check out the branch and explore the code:
-
-```sh
-git checkout basic-routing
+if __name__ == "__main__":
+    app.run(debug=True)
