@@ -10,6 +10,8 @@ Key Concepts:
     Defining database models.
     Performing CRUD operations (Create, Read, Update, Delete).
 
+Example : 
+```sh
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -35,6 +37,7 @@ db.create_all()
 
 if __name__ == "__main__":
     app.run(debug=True)
+```
 
 # Steps
 1. install Flask-SQLAlchemy.
