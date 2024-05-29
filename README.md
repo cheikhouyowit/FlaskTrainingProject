@@ -11,7 +11,7 @@ Key Concepts:
     Protecting routes and managing user authentication states.
 
 Example Code:
-
+```sh
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -80,4 +80,11 @@ db.create_all()
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+```sh
+
+# Steps
+1. Install Flask-Bcrypt and Flask-Login.
+2. Implement user registration and login functionalities.
+3. Protect routes and manage user sessions.
 
