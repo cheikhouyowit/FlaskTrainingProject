@@ -9,6 +9,7 @@ Key Concepts:
     Passing variables from Flask views to templates.
     
 #base.html
+```sh
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,3 +46,5 @@ def about():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+```
