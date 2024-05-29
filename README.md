@@ -1,81 +1,83 @@
-# Flask Training Project
+# Authentication
 
-Welcome to the Flask Training Project! This repository contains a step-by-step learning path for building a Flask application using various concepts and features. Each branch in the repository corresponds to a specific topic and includes relevant code and instructions.
+Branch: authentication
 
-## Table of Contents
+Summary: You'll implement user authentication, including user registration, login, and session management using Flask extensions like Flask-Bcrypt and Flask-Login.
 
-- [Getting Started](#getting-started)
-- [Branch Overview](#branch-overview)
-- [Environment Setup](#environment-setup)
-- [Exploring the Branches](#exploring-the-branches)
-  - [Basic Routing](#basic-routing)
-  - [Templates](#templates)
-  - [Forms](#forms)
-  - [SQLAlchemy & Database](#sqlalchemy--database)
-  - [Authentication](#authentication)
-  - [Advanced Features](#advanced-features)
-  - [Testing](#testing)
-  - [Deployment](#deployment)
-- [Contributing](#contributing)
+Key Concepts:
 
-## Getting Started
+    Hashing passwords with Flask-Bcrypt.
+    User session management with Flask-Login.
+    Protecting routes and managing user authentication states.
 
-To get started with this project, ensure you have the following installed on your machine:
+Example Code:
 
-- Python 3.x
-- pip (Python package installer)
-- Git
-- A text editor or IDE (such as Visual Studio Code)
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, UserMixin, login_user, current_user, logout_user, login_required
 
-## Branch Overview
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SECRET_KEY'] = 'supersecretkey'
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
-Each branch in this repository represents a different stage or concept of the project. Here is a quick overview:
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
 
-- `main` - Initial project setup with a basic Flask app structure.
-- `basic-routing` - Basic routing in Flask.
-- `templates` - Introduction to templates and template inheritance.
-- `forms` - Handling forms and requests.
-- `sqlalchemy` - Database handling with SQLAlchemy.
-- `authentication` - User authentication using Flask extensions.
-- `advanced-features` - Adding advanced features (e.g., file uploads).
-- `testing` - Setting up and writing tests for the Flask application.
-- `deployment` - Preparing the application for deployment.
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
-## Environment Setup
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        hashed_password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
+        user = User(username=request.form['username'], password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return '''
+    <form method="POST">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit">
+    </form>
+    '''
 
-To set up the environment for this project, follow these steps:
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = User.query.filter_by(username=request.form['username']).first()
+        if user and bcrypt.check_password_hash(user.password, request.form['password']):
+            login_user(user)
+            return redirect(url_for('dashboard'))
+    return '''
+    <form method="POST">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit">
+    </form>
+    '''
 
-1. **Clone the repository:**
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return f"Hello, {current_user.username}!"
 
-    ```sh
-    git clone https://github.com/yourusername/FlaskTrainingProject.git
-    cd FlaskTrainingProject
-    ```
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
-2. **Create and activate a virtual environment:**
+db.create_all()
 
-    ```sh
-    python3 -m venv env
-    source env/bin/activate  # On Windows use `env\Scripts\activate`
-    ```
+if __name__ == "__main__":
+    app.run(debug=True)
 
-3. **Install dependencies:**
-
-    ```sh
-    pip install -r requirements.txt
-    ```
-
-4. **Run the development server:**
-
-    ```sh
-    python app.py
-    ```
-
-## Exploring the Branches
-
-### Basic Routing
-
-In this branch, you will learn about basic routing in Flask. Check out the branch and explore the code:
-
-```sh
-git checkout basic-routing
