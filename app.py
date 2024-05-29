@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -9,6 +9,18 @@ def home():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/submit', methods=['GET', 'POST'])
+def submit():
+    if request.method == 'POST':
+        data = request.form['data']
+        return f"Received: {data}"
+    return '''
+    <form method="POST">
+        <input type="text" name="data">
+        <input type="submit">
+    </form>
+    '''
 
 if __name__ == "__main__":
     app.run(debug=True)
