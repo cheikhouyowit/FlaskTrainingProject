@@ -11,7 +11,7 @@ Key Concepts:
     Using GET and POST methods.
 
 Example : app.py
-
+```sh
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
@@ -38,3 +38,5 @@ def submit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+```
