@@ -1,81 +1,47 @@
-# Flask Training Project
+##Branch: templates
 
-Welcome to the Flask Training Project! This repository contains a step-by-step learning path for building a Flask application using various concepts and features. Each branch in the repository corresponds to a specific topic and includes relevant code and instructions.
+Summary: This branch covers the use of Jinja2 templates in Flask, which allows you to dynamically generate HTML on the server side. Template inheritance helps reduce redundancy, as you can create a base template that other templates extend.
 
-## Table of Contents
+Key Concepts:
 
-- [Getting Started](#getting-started)
-- [Branch Overview](#branch-overview)
-- [Environment Setup](#environment-setup)
-- [Exploring the Branches](#exploring-the-branches)
-  - [Basic Routing](#basic-routing)
-  - [Templates](#templates)
-  - [Forms](#forms)
-  - [SQLAlchemy & Database](#sqlalchemy--database)
-  - [Authentication](#authentication)
-  - [Advanced Features](#advanced-features)
-  - [Testing](#testing)
-  - [Deployment](#deployment)
-- [Contributing](#contributing)
+    Creating and rendering templates using Flask's render_template function.
+    Template inheritance to reuse common HTML structures.
+    Passing variables from Flask views to templates.
+    
+#base.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Blog{% endblock %}</title>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
 
-## Getting Started
+#home.html
+{% extends "base.html" %}
 
-To get started with this project, ensure you have the following installed on your machine:
+{% block title %}Home - My Blog{% endblock %}
 
-- Python 3.x
-- pip (Python package installer)
-- Git
-- A text editor or IDE (such as Visual Studio Code)
+{% block content %}
+<h1>Welcome to my blog!</h1>
+{% endblock %}
 
-## Branch Overview
+#app.py
 
-Each branch in this repository represents a different stage or concept of the project. Here is a quick overview:
+from flask import Flask, render_template
 
-- `main` - Initial project setup with a basic Flask app structure.
-- `basic-routing` - Basic routing in Flask.
-- `templates` - Introduction to templates and template inheritance.
-- `forms` - Handling forms and requests.
-- `sqlalchemy` - Database handling with SQLAlchemy.
-- `authentication` - User authentication using Flask extensions.
-- `advanced-features` - Adding advanced features (e.g., file uploads).
-- `testing` - Setting up and writing tests for the Flask application.
-- `deployment` - Preparing the application for deployment.
+app = Flask(__name__)
 
-## Environment Setup
+@app.route('/')
+def home():
+    return render_template('home.html')
 
-To set up the environment for this project, follow these steps:
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
-1. **Clone the repository:**
-
-    ```sh
-    git clone https://github.com/yourusername/FlaskTrainingProject.git
-    cd FlaskTrainingProject
-    ```
-
-2. **Create and activate a virtual environment:**
-
-    ```sh
-    python3 -m venv env
-    source env/bin/activate  # On Windows use `env\Scripts\activate`
-    ```
-
-3. **Install dependencies:**
-
-    ```sh
-    pip install -r requirements.txt
-    ```
-
-4. **Run the development server:**
-
-    ```sh
-    python app.py
-    ```
-
-## Exploring the Branches
-
-### Basic Routing
-
-In this branch, you will learn about basic routing in Flask. Check out the branch and explore the code:
-
-```sh
-git checkout basic-routing
+if __name__ == "__main__":
+    app.run(debug=True)
