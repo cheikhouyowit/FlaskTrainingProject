@@ -9,7 +9,7 @@ Key Concepts:
     Handling different HTTP methods (GET, POST).
 
 Example Code:
-
+```sh
 from flask import Flask
 
 app = Flask(__name__)
@@ -24,3 +24,4 @@ def about():
 
 if __name__ == "__main__":
     app.run(debug=True)
+```
