@@ -36,3 +36,7 @@ db.create_all()
 if __name__ == "__main__":
     app.run(debug=True)
 
+# Steps
+1. install Flask-SQLAlchemy.
+2. Define the User model and perform a simple add_user operation.
+
