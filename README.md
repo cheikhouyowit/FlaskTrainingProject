@@ -9,7 +9,7 @@ Key Concepts:
     Unit testing with pytest and pytest-flask.
     Writing test cases for different parts of your application.
 
-Example Code:
+Example Code :
 
 import pytest
 from app import app, db
