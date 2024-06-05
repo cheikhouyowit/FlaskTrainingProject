@@ -1,4 +1,5 @@
-# Flask Training Project
+# Flask Training Project by Michel
+
 
 Welcome to the Flask Training Project! This repository contains a step-by-step learning path for building a Flask application using various concepts and features. Each branch in the repository corresponds to a specific topic and includes relevant code and instructions.
 
