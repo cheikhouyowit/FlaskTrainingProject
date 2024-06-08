@@ -1,4 +1,5 @@
 ##Branch: templates
+by jesus
 
 Summary: This branch covers the use of Jinja2 templates in Flask, which allows you to dynamically generate HTML on the server side. Template inheritance helps reduce redundancy, as you can create a base template that other templates extend.
 
@@ -14,3 +15,4 @@ Key Concepts:
     * Creating a custom Jinja2 filter
     * Creating a custom macro for forms
     * Advanced date and time formatting
+
