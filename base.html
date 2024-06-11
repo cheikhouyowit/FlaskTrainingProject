@@ -1,0 +1,66 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+</head>
+<body>
+
+<h3>
+    <a href="{{ url_for('show_all') }}">Comments - Flask SQLAlchemy example</a>
+</h3>
+
+<hr/>
+
+{%- for message in get_flashed_messages() %}
+    {{ message }}
+{%- endfor %}
+
+
+<h3>Product(<a href="{{ url_for('new') }}">Add Product</a>)</h3>
+
+<table border="1" width="50%" height="55%"> 
+    <thead>
+    <tr >
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        
+        <td width="30%">Action</td>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for product in product %}
+    <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.price }}</td>
+       
+
+        <!-- Formulário para deletar o estudante -->
+        <td>
+
+            <form method="post" action="{{ url_for('delete', id=product.id) }}">
+                <!-- Link para a página de edição do estudante -->
+                <a href="{{ url_for('edit', id=product.id) }}">Edit</a>
+                <input type="hidden" name="_method" value="DELETE"> <!-- Método falso para o Flask entender que é um método DELETE -->
+                <input type="submit" value="Delete">
+            </form>
+
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</body>
+</html>
