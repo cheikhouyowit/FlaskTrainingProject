@@ -1,14 +1,58 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos</title>
+    <!-- Adicionando Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3>
+            <a href="{{ url_for('show') }}" class="btn btn-primary">Produtos</a>
+        </h3>
+        <hr/>
+        {%- for message in get_flashed_messages() %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+        {%- endfor %}
+        <h3>Produtos <a href="{{ url_for('new') }}" class="btn btn-success">Adicionar Produto</a></h3>
 
-{% block container %}
-  <div class="top-pad">
-    {% for id, product in products.items() %}
-      <div class="well">
-        <h2>
-          <a href="{{ url_for('product.product', key=id) }}">{{ product['name'] }}</a>
-          <small>$ {{ product['price'] }}</small>
-        </h2>
-      </div>
-    {% endfor %}
-  </div>
-{% endblock %}
+        <form action="{{ url_for('search') }}" method="get" class="form-inline mb-3">
+            <input type="text" name="query" placeholder="Pesquisar por nome" class="form-control mr-2" required>
+            <input type="submit" value="Pesquisar" class="btn btn-primary">
+        </form>
+
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>
+                            <form action="{{ url_for('delete', id=product.id) }}" method="post" style="display:inline;">
+                                <input type="submit" value="Excluir" class="btn btn-danger" onclick="return confirm('Você tem certeza que deseja excluir este produto?');">
+                            </form>
+                            <a href="{{ url_for('edit', id=product.id) }}" class="btn btn-warning">Editar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Adicionando Bootstrap JS e dependências -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

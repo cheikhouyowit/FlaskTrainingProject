@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Products</title>
+    <!-- Incluindo o CSS do Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h3>
+        <a href="{{ url_for('show') }}">Catálogo</a>
+    </h3>
+    <hr/>
+    {%- for message in get_flashed_messages() %}
+        <div class="alert alert-info" role="alert">
+            {{ message }}
+        </div>
+    {%- endfor %}
+    <h3>Produtos (<a href="{{ url_for('new') }}">Adicionar Produto</a>)</h3>
+    
+    <!-- Formulário de Pesquisa -->
+    <form class="form-inline my-3" action="{{ url_for('search') }}" method="get">
+        <input type="text" class="form-control mr-2" name="query" placeholder="Pesquisar por nome" required>
+        <input type="submit" class="btn btn-primary" value="Pesquisar">
+    </form>
+    
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Ação</th> <!-- Nova coluna para as ações -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" href="{{ url_for('edit', id=product.id) }}">Editar</a> <!-- Botão Editar -->
+                        <form action="{{ url_for('delete', id=product.id) }}" method="post" style="display:inline;">
+                            <input type="submit" class="btn btn-danger btn-sm" value="Excluir" onclick="return confirm('Você tem certeza que deseja excluir este produto?');">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Incluindo o JavaScript do Bootstrap (opcional, para funcionalidades como dropdown e modal) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
