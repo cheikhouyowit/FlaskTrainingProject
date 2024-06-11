@@ -1,43 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head></head>
-<body>
-   <h3>
-      <a href="{{ url_for('show') }}">Products</a>
-   </h3>
-   <hr/>
-   {%- for message in get_flashed_messages() %}
-      {{ message }}
-   {%- endfor %}
-   <h3>Students (<a href="{{ url_for('new') }}">Add Product</a>)</h3>
+{% extends 'base.html' %}
 
-   <form action="{{ url_for('search') }}" method="get">
-      <input type="text" name="query" placeholder="Pesquisar por nome" required>
-      <input type="submit" value="Pesquisar">
-  </form>
-  
-   <table border="1" width="50%" heigth="60%">
-      <thead>
-         <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Action</th>
-         </tr>
-      </thead>
-      <tbody>
-         {% for product in products %}
-            <tr>
-               <td>{{ product.name }}</td>
-               <td>{{ product.price }}</td>
-
-               <td><form action="{{ url_for('delete', id=student.id) }}" method="post" style="display:inline;">
-               <input type="submit" value="Delete" onclick="return confirm('Tem certeza que deseja deletar este estudante?');">
-               
-               <a href="{{ url_for('edit', id=student.id) }}">Edit</a> <!-- Botão Editar -->
-               </td>
-            </tr>
-         {% endfor %}
-      </tbody>
-   </table>
-</body>
-</html>
+{% block container %}
+  <div class="top-pad">
+    {% for id, product in products.items() %}
+      <div class="well">
+        <h2>
+          <a href="{{ url_for('product.product', key=id) }}">{{ product['name'] }}</a>
+          <small>$ {{ product['price'] }}</small>
+        </h2>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

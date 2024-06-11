@@ -1,17 +1,12 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+import ccy
+from flask import Flask, request
+from my_app.product.views import product_blueprint
 
-db = SQLAlchemy()
+app = Flask(__name__)
+app.register_blueprint(product_blueprint)
 
-def create_app():
-    my_app = Flask(__name__)
-    my_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///products.sqlite3'
-    my_app.config['SECRET_KEY'] = 'random string'
 
-    db.init_app(my_app)
-
-    with my_app.app_context():
-        from . import views
-        db.create_all()
-
-    return my_app
+@app.template_filter('format_currency')
+def format_currency_filter(amount):
+	currency_code = ccy.countryccy(request.accept_languages.best[-2:]) or 'USD'
+	return '{0} {1}'.format(currency_code, amount)
