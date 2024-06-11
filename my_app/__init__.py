@@ -11,7 +11,7 @@ def create_app():
     db.init_app(my_app)
 
     with my_app.app_context():
-        from . import product
+        from . import views
         db.create_all()
 
     return my_app

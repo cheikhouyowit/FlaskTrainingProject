@@ -5,7 +5,7 @@ from flask import current_app as my_app
 
 @my_app.route('/')
 def show():
-    return render_template('home.html', product=Products.query.all())
+    return render_template('home.html', products=Products.query.all())
 
 @my_app.route('/new', methods=['GET', 'POST'])
 def new():
@@ -20,4 +20,3 @@ def new():
             flash('Record was successfully added')
             return redirect(url_for('show'))
     return render_template('product.html')
-                  
